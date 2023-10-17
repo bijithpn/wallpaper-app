@@ -56,7 +56,7 @@ class ParallaxSwiper extends StatefulWidget {
   });
 
   /// A list of image URLs to display in the parallax swiper.
-  final List<Photo> images;
+  final List<String> images;
 
   /// A flag that determines whether drag-to-scroll functionality is enabled.
   final bool dragToScroll;
@@ -147,15 +147,9 @@ class _ParallaxSwiperState extends State<ParallaxSwiper> {
               controller.position.haveDimensions ? pageIndex - index : 0;
 
           return InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsPage(photoData: widget.images[index])));
-            },
+            onTap: () {},
             child: _SwiperItem(
-              image: widget.images[index].src.medium,
+              image: widget.images[index],
               value: value,
               padding: widget.padding,
               parallaxFactor: widget.parallaxFactor,
