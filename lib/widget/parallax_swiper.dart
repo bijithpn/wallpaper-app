@@ -2,9 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaper/details.dart';
-
-import '../model/previewmodel.dart';
 
 class ParallaxSwiper extends StatefulWidget {
   /// A widget that displays a parallax swiper with multiple images.

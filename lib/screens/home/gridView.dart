@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:dio/dio.dart';
-import 'package:wallpaper/details.dart';
-import 'model/previewmodel.dart';
+import 'package:flutter_wallpaper_app/model/previewmodel.dart';
+
+import '../screens.dart';
 
 class PreviewGrid extends StatefulWidget {
   const PreviewGrid({

@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  async_wallpaper:
+    dependency: "direct main"
+    description:
+      name: async_wallpaper
+      sha256: d4cf1fff78cf91982b447c82ab5248a7921996b95a43772a6fc7c971bd976ded
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -147,14 +155,19 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_wallpaper_manager:
-    dependency: "direct main"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  fluttertoast:
+    dependency: transitive
     description:
-      name: flutter_wallpaper_manager
-      sha256: "369f63c6fdb4515477ced545e39581fb3d56afcdde8bcb9ba8a58d42c2dd1c9c"
+      name: fluttertoast
+      sha256: "474f7d506230897a3cd28c965ec21c5328ae5605fc9c400cd330e9e9d6ac175c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.4"
+    version: "8.2.2"
   get:
     dependency: "direct main"
     description:
@@ -163,6 +176,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.6"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      sha256: f0b8d115a13ecf827013ec9fc883390ccc0e87a96ed5347a3114cac177ef18e8
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
   http:
     dependency: transitive
     description:
@@ -219,6 +240,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  palette_generator:
+    dependency: "direct main"
+    description:
+      name: palette_generator
+      sha256: eb7082b4b97487ebc65b3ad3f6f0b7489b96e76840381ed0e06a46fe7ffd4068
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3+3"
   path:
     dependency: transitive
     description:

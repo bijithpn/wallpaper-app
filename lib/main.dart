@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wallpaper/gridView.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'screens/screens.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -13,9 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          brightness: Brightness.dark,
+          textTheme: GoogleFonts.notoSansArmenianTextTheme(),
           useMaterial3: true,
         ),
-        home: PreviewGrid());
+        home: const PreviewGrid());
   }
 }
