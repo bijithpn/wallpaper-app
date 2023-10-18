@@ -1,27 +1,18 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_wallpaper_app/model/previewmodel.dart';
 import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../screens.dart';
+import '../../utils/color_extentions.dart';
+import '../details/details.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({
     super.key,
   });
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(context) {
     return Scaffold(
@@ -57,11 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                           child: InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             DetailsPage(photoData: photo)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailsPage(photoData: photo)));
                             },
                             child: CachedNetworkImage(
                               imageBuilder: (context, imageProvider) =>
@@ -71,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              imageUrl: photo.src.small,
+                              imageUrl: photo.src.medium,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Container(
                                 color: HexColor.fromHex(photo.avgColor),
