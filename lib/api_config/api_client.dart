@@ -17,18 +17,24 @@ class ApiClient {
     );
   }
 
-  Future<Response> getData(String url) async {
+  Future<Response> getData(
+    String url, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      Response response = await _dio.get(url);
+      Response response = await _dio.get(url, queryParameters: queryParameters);
       return response;
     } catch (e) {
       throw Exception('Failed to load data');
     }
   }
 
-  Future<Response> postData(String url) async {
+  Future<Response> postData(
+    String url, {
+    Object? data,
+  }) async {
     try {
-      Response response = await _dio.get(url);
+      Response response = await _dio.get(url, data: data);
       return response;
     } catch (e) {
       throw Exception('Failed to load data');

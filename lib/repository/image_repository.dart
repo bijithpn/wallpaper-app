@@ -1,17 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wallpaper_app/api_config/api_client.dart';
 import 'package:flutter_wallpaper_app/api_config/api_config.dart';
+import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 
 class ImageRepository {
-  fetchData() async {
+  Future<ImageData> imageAPICall(
+      {Map<String, dynamic>? queryParameters}) async {
     ApiClient apiClient = ApiClient();
-    String apiUrl = APIConfig.imageBaseUrl;
+    String apiUrl = APIConfig.imageBaseUrl + APIEndpoints.curated;
     try {
-      Response response = await apiClient.getData(apiUrl);
-      print('Response status: ${response.statusCode}');
-      print('Response data: ${response.data}');
+      Response response =
+          await apiClient.getData(apiUrl, queryParameters: queryParameters);
+      var imageData = ImageData.fromJson(response.data);
+      return imageData;
     } catch (e) {
-      print('Error: $e');
+      rethrow;
     }
   }
 }

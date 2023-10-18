@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/screens.dart';
 
@@ -27,6 +29,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.notoSansArmenianTextTheme(),
           useMaterial3: true,
         ),
-        home: const HomeScreen());
+        home: ChangeNotifierProvider<HomeProvider>(
+          lazy: false,
+          create: (_) => HomeProvider(),
+          child: const HomeScreen(),
+        ));
   }
 }
