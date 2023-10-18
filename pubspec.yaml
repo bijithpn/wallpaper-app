@@ -21,12 +21,20 @@ dependencies:
   async_wallpaper: ^2.0.3
   google_fonts: ^6.1.0
   palette_generator: ^0.3.3+3
+  flutter_dotenv: ^5.1.0
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
+  flutter_native_splash: ^2.3.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.6
+  hive_generator: ^2.0.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/.env

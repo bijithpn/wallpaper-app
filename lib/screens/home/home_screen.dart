@@ -5,20 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_wallpaper_app/model/previewmodel.dart';
 
 import '../screens.dart';
 
-class PreviewGrid extends StatefulWidget {
-  const PreviewGrid({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     super.key,
   });
 
   @override
-  State<PreviewGrid> createState() => _PreviewGridState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _PreviewGridState extends State<PreviewGrid> {
+class _HomeScreenState extends State<HomeScreen> {
   late ScrollController scrollController;
   int pageIndex = 1;
   @override
@@ -30,22 +31,23 @@ class _PreviewGridState extends State<PreviewGrid> {
   }
 
   List<PreviewImage> photList = [];
-  Future<List<PreviewImage>> imageApiCall() async {
-    final dio = Dio();
-    dio.options.headers['Authorization'] =
-        'Client-ID BwWaasVrSfwp1gIpZD2C0EPJM9Rc6_nhzFYDzTYL7UU';
-    final res = await dio.get('https://api.unsplash.com/photos',
-        queryParameters: {"page": pageIndex});
-    var json = jsonEncode(res.data);
-    return previewImageFromJson(json);
-  }
+  // Future<List<PreviewImage>> imageApiCall() async {
+  // final dio = Dio();
+  // dio.options.headers['Authorization'] =
+  // final res = await dio.get('https://api.unsplash.com/photos',
+  //     queryParameters: {"page": pageIndex});
+  // var json = jsonEncode(res.data);
+  // return previewImageFromJson(json);
+  // }
 
   getImages() async {
     try {
-      photList = await imageApiCall();
+      // photList = await imageApiCall();
       setState(() {});
     } catch (e) {
-      if (e is DioException) {}
+      if (e is DioException) {
+        print(e.response?.data);
+      }
       throw Exception(e);
     }
   }
@@ -54,11 +56,11 @@ class _PreviewGridState extends State<PreviewGrid> {
     if (scrollController.position.pixels + 600 >
         scrollController.position.maxScrollExtent) {
       pageIndex += 1;
-      List<PreviewImage> data = await imageApiCall();
-      if (data.isNotEmpty) {
-        photList.addAll(data);
-        setState(() {});
-      }
+      // List<PreviewImage> data = await imageApiCall();
+      // if (data.isNotEmpty) {
+      // photList.addAll(data);
+      setState(() {});
+      // }
     }
   }
 

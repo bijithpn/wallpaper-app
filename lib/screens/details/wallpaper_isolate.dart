@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 
-Future<dynamic> computeIsolate(Future Function() function) async {
+Future<dynamic> computeIsolate(Function function) async {
   final receivePort = ReceivePort();
   var rootToken = RootIsolateToken.instance!;
   await Isolate.spawn<_IsolateData>(
@@ -18,7 +18,10 @@ Future<dynamic> computeIsolate(Future Function() function) async {
 
 void _isolateEntry(_IsolateData isolateData) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(isolateData.token);
-  final answer = await isolateData.function();
+  print('1answer');
+  final answer = await isolateData.function;
+  print('2answer');
+  print(answer);
   isolateData.answerPort.send(answer);
 }
 

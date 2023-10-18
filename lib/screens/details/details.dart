@@ -1,12 +1,10 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/previewmodel.dart';
+import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
 import 'dart:isolate';
 import 'package:palette_generator/palette_generator.dart';
@@ -37,6 +35,12 @@ class _DetailsPageState extends State<DetailsPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    DefaultCacheManager().emptyCache();
+    super.dispose();
+  }
+
   updatePaletteGenerator() async {
     paletteGenerator = await PaletteGenerator.fromImageProvider(
       NetworkImage(widget.photoData.urls.regular),
@@ -47,23 +51,41 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   ReceivePort imgReceive = ReceivePort();
-  Future<bool> _setWallpaper() async {
-    var result = await AsyncWallpaper.setWallpaperFromFile(
-      filePath: file.path,
-      wallpaperLocation: wallpaperStatus,
-      goToHome: false,
-      toastDetails: ToastDetails.success(),
-      errorToastDetails: ToastDetails.error(),
-    );
-    print(result);
-    return result;
-  }
 
   @override
   Widget build(BuildContext context) {
     Color color = HexColor.fromHex(widget.photoData.color);
     return Scaffold(
         backgroundColor: color,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_rounded,
+                color: color.computeLuminance() > 0.5
+                    ? Colors.black
+                    : Colors.white),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AuthorWidget(usrData: widget.photoData.user)));
+                },
+                icon: Icon(
+                  Icons.info_outline,
+                  color: color.computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white,
+                ))
+          ],
+        ),
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -160,11 +182,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                       child: Container(
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: 25),
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),
-                                        // height:
-                                        //     MediaQuery.of(context).size.height /
-                                        //         4,
                                         decoration: BoxDecoration(
                                             color: paletteGenerator
                                                     ?.lightVibrantColor
@@ -219,7 +238,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     );
                                   }) ??
                               AsyncWallpaper.BOTH_SCREENS;
-                          var status = await computeIsolate(_setWallpaper);
+                          var status = await computeIsolate(_setWallpaper());
                           print('sattus$status');
                         },
                         child: Icon(Icons.wallpaper,
@@ -273,4 +292,16 @@ extension HexColor on Color {
       '${red.toRadixString(16).padLeft(2, '0')}'
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
+}
+
+_setWallpaper() {
+  AsyncWallpaper.setWallpaperFromFile(
+    filePath: file.path,
+    wallpaperLocation: wallpaperStatus,
+    goToHome: false,
+    toastDetails: ToastDetails.success(),
+    errorToastDetails: ToastDetails.error(),
+  );
+  // print(result);
+  // return result;
 }
