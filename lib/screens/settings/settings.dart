@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({super.key});
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -18,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text("Settings"),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
         child: Column(
           children: [
             ListTile(
