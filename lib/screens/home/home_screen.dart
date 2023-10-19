@@ -1,13 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:flutter_wallpaper_app/provider/home_provider.dart';
+import 'package:flutter_wallpaper_app/screens/favorites/favorite.dart';
 import 'package:flutter_wallpaper_app/screens/home/widget/image_tab_tile.dart';
+import 'package:flutter_wallpaper_app/screens/settings/settings.dart';
+import 'package:flutter_wallpaper_app/widget/custom_grid_view.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/color_extentions.dart';
-import '../details/details.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -47,11 +45,11 @@ class HomeScreen extends StatelessWidget {
                   IconButton(
                       onPressed: () {}, icon: const Icon(Icons.camera_enhance))
                 ],
-                bottom: TabBar(
+                bottom: const TabBar(
                     isScrollable: true,
                     dividerColor: Colors.transparent,
-                    indicator: const BoxDecoration(),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    indicator: BoxDecoration(),
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     tabs: [
                       ImageTabTile(
                         imageURl: 'https://pixy.org/src/20/201310.jpg',
@@ -86,13 +84,25 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   )),
-                  const ListTile(
-                    leading: Icon(Icons.favorite),
-                    title: Text("Favorite"),
+                  ListTile(
+                    leading: const Icon(Icons.favorite),
+                    title: const Text("Favorite"),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FavoritePage()));
+                    },
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text("Setting"),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsPage()));
+                    },
+                    leading: const Icon(Icons.settings),
+                    title: const Text("Setting"),
                   ),
                   const ListTile(
                     leading: Icon(Icons.share_outlined),
@@ -143,66 +153,9 @@ class HomeScreen extends StatelessWidget {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    child: GridView.custom(
-                      controller: homeProvider.scrollController,
-                      gridDelegate: SliverQuiltedGridDelegate(
-                        crossAxisCount: 4,
-                        pattern: const [
-                          QuiltedGridTile(4, 2),
-                          QuiltedGridTile(3, 2),
-                          QuiltedGridTile(4, 2),
-                          QuiltedGridTile(4, 2),
-                        ],
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                        repeatPattern: QuiltedGridRepeatPattern.inverted,
-                      ),
-                      childrenDelegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          var photo = homeProvider.photoList[index];
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailsPage(photoData: photo)));
-                              },
-                              child: CachedNetworkImage(
-                                imageBuilder: (context, imageProvider) =>
-                                    ClipRRect(
-                                  child: Image(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                imageUrl: photo.src.medium,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Container(
-                                  color: HexColor.fromHex(photo.avgColor),
-                                  width: double.parse(photo.width.toString()),
-                                  height: double.parse(photo.height.toString()),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Center(
-                                  child: Icon(
-                                    Icons.align_vertical_bottom_outlined,
-                                    size: 32,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        childCount: homeProvider.photoList.length,
-                      ),
-                    ),
+                : CustomGridView(
+                    scrollController: homeProvider.scrollController,
+                    list: homeProvider.photoList,
                   );
           })),
     );

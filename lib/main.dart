@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'db/favorite_type_adapter.dart';
+import 'provider/provider.dart';
 import 'screens/screens.dart';
 
 void main() async {
@@ -22,6 +22,7 @@ void main() async {
       return ErrorWidget(details.exception);
     }
     return Container(
+      alignment: Alignment.center,
       child: Text(details.exception.toString()),
     );
   };
@@ -38,22 +39,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          dividerColor: Colors.transparent,
-          brightness: Brightness.dark,
-          textTheme: GoogleFonts.notoSansArmenianTextTheme(),
-          useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FavoriteProvider>(
+          lazy: true,
+          create: (context) => FavoriteProvider(),
         ),
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              lazy: false,
-              create: (_) => HomeProvider(),
-            ),
-          ],
-          child: const HomeScreen(),
-        ));
+        ChangeNotifierProvider<HomeProvider>(
+          lazy: true,
+          create: (context) => HomeProvider(),
+        ),
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Wallpaper Demo App',
+          theme: ThemeData(
+            dividerColor: Colors.transparent,
+            brightness: Brightness.dark,
+            textTheme: GoogleFonts.notoSansArmenianTextTheme(),
+            useMaterial3: true,
+          ),
+          home: const HomeScreen()),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:flutter_wallpaper_app/provider/details_provider.dart';
+import 'package:flutter_wallpaper_app/provider/favorites_provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
 import 'package:hive/hive.dart';
@@ -22,9 +23,10 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  bool isFav = false;
   @override
   void initState() {
-    // Provider.of<DetailsProvider>(context);
+    // Provider.of<FavoriteProvider>(context);
     super.initState();
   }
 
@@ -266,32 +268,31 @@ class _DetailsPageState extends State<DetailsPage> {
                                 color: provider.color.computeLuminance() > 0.5
                                     ? Colors.black
                                     : Colors.white)),
-                        IconButton(
-                            onPressed: () {
-                              Box<Favorite> favoriteBooksBox =
-                                  Hive.box('favoriteBox');
-                              favoriteBooksBox.put(
-                                  widget.photoData.id,
-                                  Favorite(
-                                    avgColor: widget.photoData.avgColor,
-                                    height: widget.photoData.height.toString(),
-                                    photographer: widget.photoData.photographer,
-                                    id: widget.photoData.id,
-                                    photographerUrl:
-                                        widget.photoData.photographerUrl,
-                                    imgSmall: widget.photoData.src.small,
-                                    imgPortrait: widget.photoData.src.portrait,
-                                    width: widget.photoData.width.toString(),
-                                  ));
-                              print('favo addecdx');
-                            },
-                            icon: provider.isFav
-                                ? Icon(Icons.favorite, color: Colors.red)
-                                : Icon(Icons.favorite_outline,
-                                    color:
-                                        provider.color.computeLuminance() > 0.5
-                                            ? Colors.black
-                                            : Colors.white)),
+                        Consumer<FavoriteProvider>(
+                          builder: (context, fav, _) {
+                            isFav = fav.getFavoriteFromId(widget.photoData.id);
+                            return IconButton(
+                                onPressed: () {
+                                  if (fav
+                                      .getFavoriteFromId(widget.photoData.id)) {
+                                    fav.removeFavorite(widget.photoData.id);
+                                  } else {
+                                    fav.addToFavorite(widget.photoData);
+                                  }
+                                  isFav = fav
+                                      .getFavoriteFromId(widget.photoData.id);
+                                },
+                                icon: isFav
+                                    ? const Icon(Icons.favorite,
+                                        color: Colors.red)
+                                    : Icon(Icons.favorite_outline,
+                                        color:
+                                            provider.color.computeLuminance() >
+                                                    0.5
+                                                ? Colors.black
+                                                : Colors.white));
+                          },
+                        ),
                         IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.blur_on_outlined,

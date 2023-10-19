@@ -17,4 +17,18 @@ class ImageRepository {
       rethrow;
     }
   }
+
+  Future<Photo> imageDetailsAPICall(
+      {Map<String, dynamic>? queryParameters}) async {
+    ApiClient apiClient = ApiClient();
+    String apiUrl = APIConfig.imageBaseUrl + APIEndpoints.getPhoto;
+    try {
+      Response response =
+          await apiClient.getData(apiUrl, queryParameters: queryParameters);
+      var imageData = Photo.fromJson(response.data);
+      return imageData;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

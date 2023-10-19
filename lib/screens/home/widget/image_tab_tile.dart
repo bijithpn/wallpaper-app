@@ -4,7 +4,7 @@ class ImageTabTile extends StatelessWidget {
   final String imageURl;
   final String title;
 
-  ImageTabTile({
+  const ImageTabTile({
     super.key,
     required this.imageURl,
     required this.title,
