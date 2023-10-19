@@ -11,6 +11,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
+import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
 import 'package:provider/provider.dart';
 
 enum WallpaperOption { homeScreen, lockScreen, both }
@@ -96,6 +97,8 @@ class _DetailsPageState extends State<DetailsPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AuthorWidget(
+                                    color: HexColor.fromHex(
+                                        widget.photoData.avgColor),
                                     profileUrl:
                                         provider.photoData!.photographerUrl)));
                       },
@@ -181,8 +184,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
                                         provider.photoData!.photographerUrl))),
-                            child:
-                                const Icon(Icons.photo_camera_front_outlined),
+                            child: Icon(Icons.photo_camera_front_outlined,
+                                color: provider.color.computeLuminance() > 0.5
+                                    ? Colors.black
+                                    : Colors.white),
                           ),
                           const SizedBox(
                             width: 10,
@@ -200,20 +205,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                       .bodyMedium!
                                       .copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color: provider.color
-                                                      .computeLuminance() >
-                                                  0.5
-                                              ? Colors.black
-                                              : Colors.white),
-                                ),
-                                Text(
-                                  provider.photoData!.photographerUrl,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
                                           color: provider.color
                                                       .computeLuminance() >
                                                   0.5

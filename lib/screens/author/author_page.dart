@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:system_theme/system_theme.dart';
 
 class AuthorWidget extends StatefulWidget {
   final String profileUrl;
+  final Color color;
   const AuthorWidget({
     Key? key,
     required this.profileUrl,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -18,7 +21,25 @@ class _AuthorWidgetState extends State<AuthorWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Flutter Simple Example')),
+        backgroundColor: widget.color,
+        appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.arrow_back,
+                    color: widget.color.computeLuminance() > 0.5
+                        ? Colors.black
+                        : Colors.white)),
+            backgroundColor: widget.color,
+            title: Text(
+              'Photographer profile',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: widget.color.computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white),
+            )),
         body: Stack(
           children: [
             InAppWebView(
@@ -46,7 +67,7 @@ class _AuthorWidgetState extends State<AuthorWidget> {
                   (InAppWebViewController controller, Uri? uri, __) async {},
               shouldOverrideUrlLoading: (controller, navigationAction) async {
                 final url = navigationAction.request.url.toString();
-                if (url.contains('intent://') || url.contains('upi://')) {
+                if (url.contains('https://')) {
                   return NavigationActionPolicy.CANCEL;
                 }
                 return NavigationActionPolicy.ALLOW;
@@ -57,12 +78,12 @@ class _AuthorWidgetState extends State<AuthorWidget> {
             ),
             isLoading
                 ? Container(
-                    color: Colors.white,
+                    color: widget.color,
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
-                    child: const Center(
+                    child: Center(
                         child: CircularProgressIndicator(
-                      color: Colors.pink,
+                      color: widget.color,
                     )),
                   )
                 : const SizedBox(),

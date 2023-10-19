@@ -17,7 +17,7 @@ class FavoriteProvider with ChangeNotifier {
   bool getFavoriteFromId(int id) {
     Box<Favorite> favoriteBooksBox = Hive.box('favoriteBox');
     if (favoriteBooksBox.containsKey(id)) {
-      notifyListeners();
+      // notifyListeners();
       return true;
     }
     return false;
