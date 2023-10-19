@@ -5,6 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:flutter_wallpaper_app/provider/details_provider.dart';
 import 'package:flutter_wallpaper_app/provider/favorites_provider.dart';
+import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
 import 'package:provider/provider.dart';
@@ -267,7 +268,9 @@ class _DetailsPageState extends State<DetailsPage> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              
+                              Provider.of<ImageDownloadProvider>(context,
+                                      listen: false)
+                                  .saveImage(provider.file, context);
                             },
                             icon: Icon(Icons.download,
                                 color: provider.color.computeLuminance() > 0.5

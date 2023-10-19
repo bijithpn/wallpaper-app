@@ -35,28 +35,6 @@ class DetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updatePath() async {
-    // await Saf.releasePersistedPermissions();
-    // List<String>? paths = await Saf.getPersistedPermissionDirectories();
-
-    Permission.storage.request();
-    Saf saf = Saf('/Download/');
-    bool? isGranted = await saf.getDirectoryPermission(isDynamic: true);
-
-    if (isGranted != null && isGranted) {
-      List<String>? paths = await Saf.getPersistedPermissionDirectories();
-
-      if (paths?.isNotEmpty ?? false) {}
-    }
-  }
-
-  downloadImage() async {
-    List<String>? paths = await Saf.getPersistedPermissionDirectories();
-    if (paths?.isNotEmpty ?? false) {
-      //  paths?.first ?? 'n/a',
-    }
-  }
-
   getFavorite(int id) {
     Box<Favorite> favoriteBooksBox = Hive.box('favoriteBox');
     if (favoriteBooksBox.containsKey(id)) {

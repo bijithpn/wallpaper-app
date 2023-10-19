@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/provider/settings_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -109,11 +110,20 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                       subtitle: Text("Home and Lock Screen"),
                     ),
                     const Divider(),
-                    const ListTile(
-                      trailing: Icon(Icons.edit_outlined),
-                      leading: Icon(Icons.download_done),
-                      title: Text("Download location"),
-                      subtitle: Text("this is defulat download location "),
+                    Consumer<ImageDownloadProvider>(
+                      builder: (context, downloadProvider, _) {
+                        return ListTile(
+                          onTap: () {
+                            downloadProvider.updatePath();
+                            notifyListeners();
+                          },
+                          trailing: const Icon(Icons.edit_outlined),
+                          leading: const Icon(Icons.download_done),
+                          title: const Text("Download location"),
+                          subtitle:
+                              Text(downloadProvider.paths?.first ?? "n/a"),
+                        );
+                      },
                     ),
                     const Divider(),
                     const ListTile(

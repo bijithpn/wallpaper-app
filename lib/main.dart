@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_wallpaper_app/db/settings_type_adapter.dart';
-import 'package:flutter_wallpaper_app/provider/settings_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
@@ -36,7 +34,6 @@ void main() async {
   await Hive.openBox('settingBox');
   await SystemTheme.accentColor.load();
   final supported = defaultTargetPlatform.supportsAccentColor;
-
   print(
       'Accent color is: ${supported ? 'supported' : 'not supported'} on the current platform');
   runApp(const MyApp());
@@ -59,8 +56,12 @@ class MyApp extends StatelessWidget {
           create: (context) => HomeProvider(),
         ),
         ChangeNotifierProvider<SettingProvider>(
-          lazy: true,
+          lazy: false,
           create: (context) => SettingProvider(),
+        ),
+        ChangeNotifierProvider<ImageDownloadProvider>(
+          lazy: false,
+          create: (context) => ImageDownloadProvider(),
         ),
       ],
       builder: (context, _) {
