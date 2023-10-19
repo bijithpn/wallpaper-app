@@ -3,8 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
-import 'package:flutter_wallpaper_app/provider/details_provider.dart';
-import 'package:flutter_wallpaper_app/provider/favorites_provider.dart';
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
@@ -21,17 +22,47 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  late ConfettiController confettiController;
+
   bool isFav = false;
+  bool setWallpapaer = false;
+  bool isLoading = false;
   @override
   void initState() {
-    // Provider.of<FavoriteProvider>(context);
+    confettiController =
+        ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
   }
 
   @override
   void dispose() {
+    confettiController.dispose();
     DefaultCacheManager().emptyCache();
     super.dispose();
+  }
+
+  /// A custom Path to paint stars.
+  Path drawStar(Size size) {
+    // Method to convert degree to radians
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
   }
 
   @override
@@ -73,25 +104,41 @@ class _DetailsPageState extends State<DetailsPage> {
                       ))
                 ],
               ),
-              body: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: CachedNetworkImage(
-                    imageUrl: provider.photoData!.src.large2X,
-                    fit: BoxFit.cover,
+              body: Stack(
+                children: [
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                    errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 32,
-                          color: Colors.red,
-                        ),
-                    placeholder: (context, url) => Image.network(
-                          provider.photoData!.src.small,
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                        )),
+                    child: CachedNetworkImage(
+                        imageUrl: provider.photoData!.src.large2X,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              size: 32,
+                              color: Colors.red,
+                            ),
+                        placeholder: (context, url) => Image.network(
+                              provider.photoData!.src.small,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                            )),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: ConfettiWidget(
+                      confettiController: confettiController,
+                      blastDirection: pi / 2,
+                      maxBlastForce: 8, // set a lower max blast force
+                      minBlastForce: 5, // set a lower min blast force
+                      emissionFrequency: 0.05,
+                      numberOfParticles: 20, // a lot of particles at once
+                      gravity: 1,
+                    ),
+                  ),
+                ],
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
@@ -251,11 +298,16 @@ class _DetailsPageState extends State<DetailsPage> {
                                           );
                                         }) ??
                                     AsyncWallpaper.BOTH_SCREENS;
-                                // var status =
-                                //     await computeIsolate(_setWallpaper());
-                                // print('sattus$status');
+                                setWallpapaer = await provider.setWallpaper(
+                                    wallpaperLocation: provider.wallpaperStatus,
+                                    context: context);
+                                setState(() {});
+                                if (setWallpapaer) {
+                                  confettiController.play();
+                                }
                               },
-                              child: Icon(Icons.wallpaper,
+                              child: Icon(
+                                  !setWallpapaer ? Icons.wallpaper : Icons.done,
                                   color: provider.color.computeLuminance() > 0.5
                                       ? Colors.black
                                       : Colors.white))

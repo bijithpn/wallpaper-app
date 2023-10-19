@@ -6,8 +6,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:hive/hive.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:saf/saf.dart';
 
 import '../db/favorite_type_adapter.dart';
 import '../utils/color_extentions.dart';
@@ -43,15 +41,13 @@ class DetailsProvider with ChangeNotifier {
     }
   }
 
-  _setWallpaper() {
-    AsyncWallpaper.setWallpaperFromFile(
+  setWallpaper(
+      {required int wallpaperLocation, required BuildContext context}) async {
+    var status = await AsyncWallpaper.setWallpaperFromFile(
       filePath: file.path,
-      wallpaperLocation: 1,
+      wallpaperLocation: wallpaperLocation,
       goToHome: false,
-      toastDetails: ToastDetails.success(),
-      errorToastDetails: ToastDetails.error(),
     );
-    // print(result);
-    // return result;
+    return status;
   }
 }
