@@ -13,7 +13,6 @@ class FavoriteProvider with ChangeNotifier {
   FavoriteProvider() {
     favoriteWallpaperBox = Hive.box('favoriteBox');
     scrollController = ScrollController();
-    getFavotiteItem();
   }
   bool getFavoriteFromId(int id) {
     Box<Favorite> favoriteBooksBox = Hive.box('favoriteBox');

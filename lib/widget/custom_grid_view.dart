@@ -26,6 +26,8 @@ class CustomGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(list.first.runtimeType == Favorite);
+    print(double.parse((list.first.width.toString())) / 25);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: GridView.custom(
@@ -50,10 +52,22 @@ class CustomGridView extends StatelessWidget {
                           builder: (context) => DetailsPage(photoData: photo)));
                 },
                 child: CachedNetworkImage(
+                  width: photo.runtimeType == Favorite
+                      ? double.parse((photo.width.toString())) / 25
+                      : double.parse(photo.width.toString()),
+                  height: photo.runtimeType == Favorite
+                      ? double.parse(photo.height.toString()) / 25
+                      : double.parse(photo.height.toString()),
                   imageBuilder: (context, imageProvider) => ClipRRect(
                     child: Image(
                       image: imageProvider,
                       fit: BoxFit.cover,
+                      width: photo.runtimeType == Favorite
+                          ? double.parse((photo.width.toString())) / 25
+                          : double.parse(photo.width.toString()),
+                      height: photo.runtimeType == Favorite
+                          ? double.parse(photo.height.toString()) / 25
+                          : double.parse(photo.height.toString()),
                     ),
                   ),
                   imageUrl: photo.runtimeType == Favorite
@@ -62,8 +76,12 @@ class CustomGridView extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     color: HexColor.fromHex(photo.avgColor),
-                    width: double.parse(photo.width.toString()),
-                    height: double.parse(photo.height.toString()),
+                    width: photo.runtimeType == Favorite
+                        ? double.parse((photo.width.toString())) / 35
+                        : double.parse(photo.width.toString()),
+                    height: photo.runtimeType == Favorite
+                        ? double.parse(photo.height.toString()) / 35
+                        : double.parse(photo.height.toString()),
                   ),
                   errorWidget: (context, url, error) => const Center(
                     child: Icon(

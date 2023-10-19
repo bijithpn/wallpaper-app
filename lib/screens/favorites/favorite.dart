@@ -14,9 +14,14 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Favorites"),
+      ),
       body: Consumer<FavoriteProvider>(
         builder: (context, favorite, _) {
-          favorite.getFavotiteItem();
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            favorite.getFavotiteItem();
+          });
           return CustomGridView(
               scrollController: favorite.scrollController,
               list: favorite.favoriteItems);
