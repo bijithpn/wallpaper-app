@@ -3,6 +3,7 @@ import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/provider/settings_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:system_theme/system_theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -38,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                       title: const Text("Theme"),
                       trailing: Switch(
                           value: isDark,
-                          activeColor: Colors.grey,
+                          activeColor: SystemTheme.accentColor.accent,
                           inactiveThumbImage:
                               const AssetImage("assets/images/sun.png"),
                           activeThumbImage:
@@ -59,8 +60,8 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                       subtitle: const Text(
                           "Device must be connected to a Wi-Fi network"),
                       trailing: Checkbox(
+                          activeColor: SystemTheme.accentColor.accent,
                           value: onWifi,
-                          activeColor: Colors.grey,
                           onChanged: (value) {
                             box.put('onWifi', !onWifi);
                             notifyListeners();
@@ -75,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                       subtitle: const Text(
                           "Device must be connected to a power source"),
                       trailing: Checkbox(
-                          activeColor: Colors.grey,
+                          activeColor: SystemTheme.accentColor.accent,
                           value: onCharging,
                           onChanged: (value) {
                             box.put('onCharge', !onCharging);
@@ -91,7 +92,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                       subtitle: const Text("Device must be inactive"),
                       trailing: Checkbox(
                           value: onidle,
-                          activeColor: Colors.grey,
+                          activeColor: SystemTheme.accentColor.accent,
                           onChanged: (value) {
                             box.put('onIdle', !onidle);
                             notifyListeners();

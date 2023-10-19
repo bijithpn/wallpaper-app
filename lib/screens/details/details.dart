@@ -129,14 +129,15 @@ class _DetailsPageState extends State<DetailsPage> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: ConfettiWidget(
-                      confettiController: confettiController,
-                      blastDirection: pi / 2,
-                      maxBlastForce: 8, // set a lower max blast force
-                      minBlastForce: 5, // set a lower min blast force
-                      emissionFrequency: 0.05,
-                      numberOfParticles: 20, // a lot of particles at once
-                      gravity: 1,
-                    ),
+                        confettiController: confettiController,
+                        createParticlePath: drawStar,
+                        blastDirection: pi / 2,
+                        maxBlastForce: 8,
+                        minBlastForce: 5,
+                        emissionFrequency: 0.05,
+                        numberOfParticles: 10, // a lot of particles at once
+                        gravity: 1,
+                        blastDirectionality: BlastDirectionality.explosive),
                   ),
                 ],
               ),
