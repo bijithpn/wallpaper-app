@@ -45,7 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
               backgroundColor: provider.color,
               extendBodyBehindAppBar: true,
               appBar: AppBar(
-                backgroundColor: Colors.transparent,
+                backgroundColor: Colors.transparent.withOpacity(0),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back_rounded,
                       color: provider.color.computeLuminance() > 0.5

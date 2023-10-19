@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          dividerColor: Colors.transparent,
           brightness: Brightness.dark,
           textTheme: GoogleFonts.notoSansArmenianTextTheme(),
           useMaterial3: true,
