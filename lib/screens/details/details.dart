@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class _DetailsPageState extends State<DetailsPage> {
   bool isFav = false;
   bool setWallpapaer = false;
   bool isLoading = false;
+  bool isBlur = false;
   @override
   void initState() {
     confettiController =
@@ -106,26 +109,32 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               body: Stack(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: CachedNetworkImage(
-                        imageUrl: provider.photoData!.src.large2X,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              size: 32,
-                              color: Colors.red,
-                            ),
-                        placeholder: (context, url) => Image.network(
-                              provider.photoData!.src.small,
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height,
-                            )),
-                  ),
+                  CachedNetworkImage(
+                      imageUrl: provider.photoData!.src.large2X,
+                      fit: BoxFit.cover,
+                      imageBuilder: (context, imageProvider) {
+                        return ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                              sigmaY: isBlur ? 5 : 1, sigmaX: isBlur ? 5 : 1),
+                          child: Image(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 32,
+                            color: Colors.red,
+                          ),
+                      placeholder: (context, url) => Image.network(
+                            provider.photoData!.src.small,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                          )),
                   Align(
                     alignment: Alignment.topCenter,
                     child: ConfettiWidget(
@@ -355,8 +364,14 @@ class _DetailsPageState extends State<DetailsPage> {
                           },
                         ),
                         IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.blur_on_outlined,
+                            onPressed: () {
+                              isBlur = !isBlur;
+                              setState(() {});
+                            },
+                            icon: Icon(
+                                isBlur
+                                    ? Icons.blur_circular_outlined
+                                    : Icons.blur_on_outlined,
                                 color: provider.color.computeLuminance() > 0.5
                                     ? Colors.black
                                     : Colors.white)),
