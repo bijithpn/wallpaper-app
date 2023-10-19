@@ -115,7 +115,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       imageBuilder: (context, imageProvider) {
                         return ImageFiltered(
                           imageFilter: ImageFilter.blur(
-                              sigmaY: isBlur ? 5 : 1, sigmaX: isBlur ? 5 : 1),
+                              sigmaY: isBlur ? 5 : 0, sigmaX: isBlur ? 5 : 0),
                           child: Image(
                             image: imageProvider,
                             fit: BoxFit.cover,
