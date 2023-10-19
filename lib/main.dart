@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_wallpaper_app/db/settings_type_adapter.dart';
+import 'package:flutter_wallpaper_app/provider/settings_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:system_theme/system_theme.dart';
 
 import 'db/favorite_type_adapter.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'provider/provider.dart';
 import 'screens/screens.dart';
 
@@ -30,6 +33,12 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(FavoriteAdapter());
   await Hive.openBox<Favorite>('favoriteBox');
+  await Hive.openBox('settingBox');
+  await SystemTheme.accentColor.load();
+  final supported = defaultTargetPlatform.supportsAccentColor;
+
+  print(
+      'Accent color is: ${supported ? 'supported' : 'not supported'} on the current platform');
   runApp(const MyApp());
 }
 
@@ -49,17 +58,18 @@ class MyApp extends StatelessWidget {
           lazy: true,
           create: (context) => HomeProvider(),
         ),
+        ChangeNotifierProvider<SettingProvider>(
+          lazy: true,
+          create: (context) => SettingProvider(),
+        ),
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Wallpaper Demo App',
-          theme: ThemeData(
-            dividerColor: Colors.transparent,
-            brightness: Brightness.dark,
-            textTheme: GoogleFonts.notoSansArmenianTextTheme(),
-            useMaterial3: true,
-          ),
-          home: const HomeScreen()),
+      builder: (context, _) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Wallpaper Demo App',
+            theme: Provider.of<SettingProvider>(context).themeData,
+            home: const HomeScreen());
+      },
     );
   }
 }

@@ -7,10 +7,7 @@ import 'package:flutter_wallpaper_app/provider/details_provider.dart';
 import 'package:flutter_wallpaper_app/provider/favorites_provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
-import '../../db/favorite_type_adapter.dart';
 
 enum WallpaperOption { homeScreen, lockScreen, both }
 
@@ -79,7 +76,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: CachedNetworkImage(
-                    imageUrl: provider.photoData!.src.portrait,
+                    imageUrl: provider.photoData!.src.large2X,
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -118,11 +115,16 @@ class _DetailsPageState extends State<DetailsPage> {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
+                                color: provider.paletteGenerator?.dominantColor
+                                        ?.color ??
+                                    provider.color.withOpacity(.5),
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
                                         provider.photoData!.photographerUrl))),
+                            child:
+                                const Icon(Icons.photo_camera_front_outlined),
                           ),
                           const SizedBox(
                             width: 10,
@@ -259,11 +261,14 @@ class _DetailsPageState extends State<DetailsPage> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              
+                            },
                             icon: Icon(Icons.download,
                                 color: provider.color.computeLuminance() > 0.5
                                     ? Colors.black

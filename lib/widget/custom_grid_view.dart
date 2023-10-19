@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_wallpaper_app/db/favorite_type_adapter.dart';
+import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:flutter_wallpaper_app/screens/details/details.dart';
 import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
 
@@ -57,7 +58,7 @@ class CustomGridView extends StatelessWidget {
                   ),
                   imageUrl: photo.runtimeType == Favorite
                       ? (photo as Favorite).imgPortrait
-                      : photo.src.medium,
+                      : (photo as Photo).src.portrait,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     color: HexColor.fromHex(photo.avgColor),
