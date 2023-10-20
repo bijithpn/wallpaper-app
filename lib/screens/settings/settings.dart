@@ -12,7 +12,7 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,6 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                           onChanged: (value) {
                             setting.toggleTheme(value);
                             box.put('darkMode', !isDark);
-                            notifyListeners();
                           }),
                     ),
                     const Divider(),
@@ -64,7 +63,6 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                           value: onWifi,
                           onChanged: (value) {
                             box.put('onWifi', !onWifi);
-                            notifyListeners();
                           }),
                     ),
                     ListTile(
@@ -80,7 +78,6 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                           value: onCharging,
                           onChanged: (value) {
                             box.put('onCharge', !onCharging);
-                            notifyListeners();
                           }),
                     ),
                     ListTile(
@@ -95,7 +92,6 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                           activeColor: SystemTheme.accentColor.accent,
                           onChanged: (value) {
                             box.put('onIdle', !onidle);
-                            notifyListeners();
                           }),
                     ),
                     const Divider(),
@@ -114,15 +110,18 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
                     Consumer<ImageDownloadProvider>(
                       builder: (context, downloadProvider, _) {
                         return ListTile(
-                          onTap: () {
-                            downloadProvider.updatePath();
-                            notifyListeners();
-                          },
-                          trailing: const Icon(Icons.edit_outlined),
+                          onTap: null,
+                          trailing: IconButton(
+                            icon: const Icon(Icons.edit_outlined),
+                            onPressed: () {
+                              downloadProvider.updatePath();
+                            },
+                          ),
                           leading: const Icon(Icons.download_done),
                           title: const Text("Download location"),
-                          subtitle:
-                              Text(downloadProvider.paths?.first ?? "n/a"),
+                          subtitle: Text(downloadProvider.paths!.isNotEmpty
+                              ? downloadProvider.paths!.first
+                              : "N/A"),
                         );
                       },
                     ),

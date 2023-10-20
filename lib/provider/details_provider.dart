@@ -1,11 +1,12 @@
 import 'dart:io';
-
+import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:hive/hive.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:wallpaper/wallpaper.dart';
 
 import '../db/favorite_type_adapter.dart';
 import '../utils/color_extentions.dart';
@@ -46,7 +47,7 @@ class DetailsProvider with ChangeNotifier {
     var status = await AsyncWallpaper.setWallpaperFromFile(
       filePath: file.path,
       wallpaperLocation: wallpaperLocation,
-      goToHome: false,
+      goToHome: true,
     );
     return status;
   }

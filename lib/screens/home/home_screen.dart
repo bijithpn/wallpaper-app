@@ -6,6 +6,7 @@ import 'package:flutter_wallpaper_app/screens/home/widget/image_tab_tile.dart';
 import 'package:flutter_wallpaper_app/screens/settings/settings.dart';
 import 'package:flutter_wallpaper_app/widget/custom_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:system_theme/system_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -99,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SettingsPage()));
+                              builder: (context) => const SettingsPage()));
                     },
                     leading: const Icon(Icons.settings),
                     title: const Text("Setting"),
@@ -150,8 +151,10 @@ class HomeScreen extends StatelessWidget {
           ),
           body: Consumer<HomeProvider>(builder: (context, homeProvider, _) {
             return homeProvider.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: SystemTheme.accentColor.accent,
+                    ),
                   )
                 : CustomGridView(
                     scrollController: homeProvider.scrollController,

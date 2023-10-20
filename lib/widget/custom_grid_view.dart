@@ -45,49 +45,63 @@ class CustomGridView extends StatelessWidget {
             return ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: InkWell(
+                key: ValueKey(photo.id),
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailsPage(photoData: photo)));
+                      PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 450),
+                          pageBuilder: (_, __, ___) =>
+                              DetailsPage(photoData: photo)));
+                  //MaterialPageRoute(
+                  // builder: (context) => DetailsPage(photoData: photo))
                 },
-                child: CachedNetworkImage(
-                  width: photo.runtimeType == Favorite
-                      ? double.parse((photo.width.toString())) / 25
-                      : double.parse(photo.width.toString()),
-                  height: photo.runtimeType == Favorite
-                      ? double.parse(photo.height.toString()) / 25
-                      : double.parse(photo.height.toString()),
-                  imageBuilder: (context, imageProvider) => ClipRRect(
-                    child: Image(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                      width: photo.runtimeType == Favorite
-                          ? double.parse((photo.width.toString())) / 25
-                          : double.parse(photo.width.toString()),
-                      height: photo.runtimeType == Favorite
-                          ? double.parse(photo.height.toString()) / 25
-                          : double.parse(photo.height.toString()),
-                    ),
-                  ),
-                  imageUrl: photo.runtimeType == Favorite
-                      ? (photo as Favorite).imgPortrait
-                      : (photo as Photo).src.portrait,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: HexColor.fromHex(photo.avgColor),
+                child: Hero(
+                  tag: photo.id,
+                  child: CachedNetworkImage(
                     width: photo.runtimeType == Favorite
-                        ? double.parse((photo.width.toString())) / 35
+                        ? double.parse((photo.width.toString())) / 25
                         : double.parse(photo.width.toString()),
                     height: photo.runtimeType == Favorite
-                        ? double.parse(photo.height.toString()) / 35
+                        ? double.parse(photo.height.toString()) / 25
                         : double.parse(photo.height.toString()),
-                  ),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Icon(
-                      Icons.align_vertical_bottom_outlined,
-                      size: 32,
-                      color: Colors.red,
+                    imageBuilder: (context, imageProvider) => ClipRRect(
+                      child: Image(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                        width: photo.runtimeType == Favorite
+                            ? double.parse((photo.width.toString())) / 25
+                            : double.parse(photo.width.toString()),
+                        height: photo.runtimeType == Favorite
+                            ? double.parse(photo.height.toString()) / 25
+                            : double.parse(photo.height.toString()),
+                      ),
+                    ),
+                    imageUrl: photo.runtimeType == Favorite
+                        ? (photo as Favorite).imgPortrait
+                        : (photo as Photo).src.portrait,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: HexColor.fromHex(photo.avgColor),
+                      width: photo.runtimeType == Favorite
+                          ? double.parse((photo.width.toString())) / 35
+                          : double.parse(photo.width.toString()),
+                      height: photo.runtimeType == Favorite
+                          ? double.parse(photo.height.toString()) / 35
+                          : double.parse(photo.height.toString()),
+                      child: Image.network(
+                        photo.runtimeType == Favorite
+                            ? photo.imgSmall
+                            : photo.src.small,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => const Center(
+                      child: Icon(
+                        Icons.align_vertical_bottom_outlined,
+                        size: 32,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ),

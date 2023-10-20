@@ -1,5 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.INTERNET" />
+<uses-feature android:name="android.permission-group.WALLPAPER" />
+<uses-feature android:name="android.permission.SET_WALLPAPER" />
+<uses-feature android:name="android.software.live_wallpaper"   android_required="true" />
+<uses-permission android:name="android.permission.BIND_WALLPAPER" />
+
     <application
         android:label="wallpaper"
         android:name="${applicationName}"

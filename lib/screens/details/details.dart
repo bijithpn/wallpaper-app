@@ -13,6 +13,7 @@ import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
 import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
 import 'package:provider/provider.dart';
+import 'package:system_theme/system_theme.dart';
 
 enum WallpaperOption { homeScreen, lockScreen, both }
 
@@ -112,32 +113,35 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               body: Stack(
                 children: [
-                  CachedNetworkImage(
-                      imageUrl: provider.photoData!.src.large2X,
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) {
-                        return ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                              sigmaY: isBlur ? 5 : 0, sigmaX: isBlur ? 5 : 0),
-                          child: Image(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      errorWidget: (context, url, error) => const Icon(
-                            Icons.error,
-                            size: 32,
-                            color: Colors.red,
-                          ),
-                      placeholder: (context, url) => Image.network(
-                            provider.photoData!.src.small,
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                          )),
+                  Hero(
+                    tag: provider.photoData!.id,
+                    child: CachedNetworkImage(
+                        imageUrl: provider.photoData!.src.large2X,
+                        fit: BoxFit.cover,
+                        imageBuilder: (context, imageProvider) {
+                          return ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                                sigmaY: isBlur ? 5 : 0, sigmaX: isBlur ? 5 : 0),
+                            child: Image(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              size: 32,
+                              color: Colors.red,
+                            ),
+                        placeholder: (context, url) => Image.network(
+                              provider.photoData!.src.small,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                            )),
+                  ),
                   Align(
                     alignment: Alignment.topCenter,
                     child: ConfettiWidget(
@@ -176,14 +180,11 @@ class _DetailsPageState extends State<DetailsPage> {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                                color: provider.paletteGenerator?.dominantColor
-                                        ?.color ??
-                                    provider.color.withOpacity(.5),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        provider.photoData!.photographerUrl))),
+                              color: provider
+                                      .paletteGenerator?.dominantColor?.color ??
+                                  provider.color.withOpacity(.5),
+                              shape: BoxShape.circle,
+                            ),
                             child: Icon(Icons.photo_camera_front_outlined,
                                 color: provider.color.computeLuminance() > 0.5
                                     ? Colors.black
@@ -299,13 +300,14 @@ class _DetailsPageState extends State<DetailsPage> {
                                           );
                                         }) ??
                                     AsyncWallpaper.BOTH_SCREENS;
+                                loadingWallpaper(context, provider.color);
                                 setWallpapaer = await provider.setWallpaper(
                                     wallpaperLocation: provider.wallpaperStatus,
                                     context: context);
-                                setState(() {});
-                                if (setWallpapaer) {
-                                  confettiController.play();
-                                }
+                                // setState(() {});
+                                // if (setWallpapaer) {
+                                //   confettiController.play();
+                                // }
                               },
                               child: Icon(
                                   !setWallpapaer ? Icons.wallpaper : Icons.done,
@@ -375,4 +377,33 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
   }
+}
+
+void loadingWallpaper(BuildContext context, Color color) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+                color: color, borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    color: SystemTheme.accentColor.accent,
+                  )),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Setting wallpaper",
+                style: Theme.of(context).textTheme.bodySmall,
+              )
+            ]),
+          ),
+        );
+      });
 }
