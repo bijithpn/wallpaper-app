@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: const Text("Theme"),
                       trailing: Switch(
                           value: isDark,
-                          activeColor: SystemTheme.accentColor.accent,
+                          activeColor: Theme.of(context).colorScheme.primary,
                           inactiveThumbImage:
                               const AssetImage("assets/images/sun.png"),
                           activeThumbImage:
@@ -59,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle: const Text(
                           "Device must be connected to a Wi-Fi network"),
                       trailing: Checkbox(
-                          activeColor: SystemTheme.accentColor.accent,
+                          activeColor: Theme.of(context).colorScheme.primary,
                           value: onWifi,
                           onChanged: (value) {
                             box.put('onWifi', !onWifi);
@@ -74,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle: const Text(
                           "Device must be connected to a power source"),
                       trailing: Checkbox(
-                          activeColor: SystemTheme.accentColor.accent,
+                          activeColor: Theme.of(context).colorScheme.primary,
                           value: onCharging,
                           onChanged: (value) {
                             box.put('onCharge', !onCharging);
@@ -89,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle: const Text("Device must be inactive"),
                       trailing: Checkbox(
                           value: onidle,
-                          activeColor: SystemTheme.accentColor.accent,
+                          activeColor: Theme.of(context).colorScheme.primary,
                           onChanged: (value) {
                             box.put('onIdle', !onidle);
                           }),
