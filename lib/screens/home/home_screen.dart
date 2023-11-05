@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:flutter_wallpaper_app/screens/favorites/favorite.dart';
-import 'package:flutter_wallpaper_app/screens/home/widget/image_tab_tile.dart';
 import 'package:flutter_wallpaper_app/screens/settings/settings.dart';
 import 'package:flutter_wallpaper_app/widget/custom_grid_view.dart';
 import 'package:provider/provider.dart';
@@ -19,58 +18,30 @@ class HomeScreen extends StatelessWidget {
       length: 4,
       child: Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(130),
-            child: AppBar(
-                backgroundColor:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(.9),
-                title: SizedBox(
-                  height: 50,
-                  child: TextFormField(
-                    cursorWidth: 1,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        hintText: "Trending..",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        fillColor: Colors.grey[600],
-                        filled: true),
-                  ),
+          appBar: AppBar(
+            backgroundColor:
+                Theme.of(context).scaffoldBackgroundColor.withOpacity(.9),
+            title: SizedBox(
+              height: 50,
+              child: TextFormField(
+                cursorWidth: 1,
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  hintText: "Trending..",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40)),
                 ),
-                actions: [
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.camera_enhance))
-                ],
-                bottom: const TabBar(
-                    isScrollable: true,
-                    dividerColor: Colors.transparent,
-                    indicator: BoxDecoration(),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    tabs: [
-                      ImageTabTile(
-                        imageURl: 'https://pixy.org/src/20/201310.jpg',
-                        title: "Trending",
-                      ),
-                      ImageTabTile(
-                        imageURl:
-                            'https://www.imagelighteditor.com/img/bg-after.jpg',
-                        title: "Featured",
-                      ),
-                      ImageTabTile(
-                        imageURl: 'https://pixy.org/src/21/219269.jpg',
-                        title: "Popular",
-                      ),
-                      ImageTabTile(
-                        imageURl:
-                            'https://furbo.org/color/Downloads/Image-ProPhoto.jpg',
-                        title: "Most Liked",
-                      ),
-                    ])),
+              ),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.camera_enhance))
+            ],
           ),
           drawer: Drawer(
             child: Column(
