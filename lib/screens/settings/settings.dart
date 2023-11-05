@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wallpaper_app/provider/provider.dart';
-import 'package:flutter_wallpaper_app/provider/settings_provider.dart';
+import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
+import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:system_theme/system_theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -30,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 bool onidle = box.get('onIdle', defaultValue: false);
                 bool onCharging = box.get('onCharge', defaultValue: false);
                 bool onWifi = box.get('onWifi', defaultValue: false);
+                int wallpaperStatus =
+                    box.get('wallpaperStatus', defaultValue: 3);
                 return ListView(
                   children: [
                     ListTile(
@@ -101,10 +103,70 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle:
                           Text("Each wallpaper will last a minimum of 3 hour"),
                     ),
-                    const ListTile(
-                      leading: Icon(Icons.wallpaper_rounded),
-                      title: Text("Screen"),
-                      subtitle: Text("Home and Lock Screen"),
+                    ListTile(
+                      onTap: () async {
+                        int wallpaper = await showDialog<int>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) {
+                                  return Center(
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          WallpaperItemWIdget(
+                                            title: "Home Screen",
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            icon: Icons.home_rounded,
+                                            function: () {
+                                              Navigator.pop(context,
+                                                  WallpaperManager.HOME_SCREEN);
+                                            },
+                                          ),
+                                          WallpaperItemWIdget(
+                                            title: "Lock Screen",
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            icon: Icons.lock_outline,
+                                            function: () {
+                                              Navigator.pop(context,
+                                                  WallpaperManager.LOCK_SCREEN);
+                                            },
+                                          ),
+                                          WallpaperItemWIdget(
+                                            title: "Both Screen",
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            icon: Icons.wallpaper_outlined,
+                                            function: () {
+                                              Navigator.pop(context,
+                                                  WallpaperManager.BOTH_SCREEN);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }) ??
+                            WallpaperManager.BOTH_SCREEN;
+                        box.put('wallpaperStatus', wallpaper);
+                      },
+                      leading: const Icon(Icons.wallpaper_rounded),
+                      title: const Text("Screen"),
+                      subtitle: Text(wallpaperStatus == 1
+                          ? "Home Screen"
+                          : wallpaperStatus == 2
+                              ? "Lock Screen"
+                              : "Home and Lock Screen"),
                     ),
                     const Divider(),
                     Consumer<ImageDownloadProvider>(
@@ -137,7 +199,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           "Tell me what you think,suggest ideas, bug reports and improvements"),
                     ),
                     const Spacer(),
-                    const SizedBox(height: 10),
                     Center(
                       child: Column(
                         children: [
