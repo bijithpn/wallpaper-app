@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:flutter_wallpaper_app/screens/favorites/favorite.dart';
+import 'package:flutter_wallpaper_app/screens/image_search/camera.dart';
+import 'package:flutter_wallpaper_app/screens/image_search/gallery.dart';
 import 'package:flutter_wallpaper_app/screens/search/search.dart';
 import 'package:flutter_wallpaper_app/screens/settings/settings.dart';
 import 'package:flutter_wallpaper_app/widget/custom_grid_view.dart';
@@ -18,6 +23,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late CameraDescription cameraDescription;
+  int _selectedIndex = 0;
+  List<Widget>? _widgetOptions;
+
+  bool cameraIsAvailable = Platform.isAndroid || Platform.isIOS;
   bool shoButton = false;
   @override
   void initState() {
@@ -28,6 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
         shoButton = false;
       }
       setState(() {});
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (cameraIsAvailable) {
+        cameraDescription = (await availableCameras()).first;
+      }
     });
     super.initState();
   }
@@ -87,7 +102,40 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.camera_enhance))
+                  onPressed: () {
+                    showModalBottomSheet(
+                        enableDrag: false,
+                        showDragHandle: true,
+                        context: context,
+                        builder: (context) => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CameraScreen(
+                                                camera: cameraDescription)));
+                                  },
+                                  leading: Icon(Icons.photo_camera),
+                                  title: Text("Camera"),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                GalleryScreen()));
+                                  },
+                                  leading: Icon(Icons.photo_library),
+                                  title: Text("Gallery"),
+                                ),
+                              ],
+                            ));
+                  },
+                  icon: const Icon(Icons.image_search))
             ],
           ),
           drawer: Drawer(

@@ -29,7 +29,13 @@ class _SearchPageState extends State<SearchPage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text("Search result"),
+        title: Text(
+          "Search result",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Consumer<HomeProvider>(builder: (_, state, __) {
         return state.isLoading
