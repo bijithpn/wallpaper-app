@@ -7,13 +7,13 @@ import 'package:flutter_wallpaper_app/screens/details/details.dart';
 import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
 
 class CustomGridView extends StatelessWidget {
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
   final List<QuiltedGridTile> patterns;
   final void Function()? onTap;
   final List<dynamic> list;
   const CustomGridView({
     super.key,
-    required this.scrollController,
+    this.scrollController,
     this.patterns = const [
       QuiltedGridTile(4, 2),
       QuiltedGridTile(3, 2),

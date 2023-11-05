@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:system_theme/system_theme.dart';
 
 class AuthorWidget extends StatefulWidget {
   final String profileUrl;

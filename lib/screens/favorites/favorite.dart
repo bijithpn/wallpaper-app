@@ -15,16 +15,39 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Favorites"),
+        title: Text(
+          "Favorites",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Consumer<FavoriteProvider>(
         builder: (context, favorite, _) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             favorite.getFavotiteItem();
           });
-          return CustomGridView(
-              scrollController: favorite.scrollController,
-              list: favorite.favoriteItems);
+          if (favorite.favoriteItems.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(Icons.favorite, size: 60, color: Colors.red),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Please add your favorite wallpaper",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return CustomGridView(
+                scrollController: favorite.scrollController,
+                list: favorite.favoriteItems);
+          }
         },
       ),
     );

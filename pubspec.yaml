@@ -30,6 +30,9 @@ dependencies:
   system_theme: ^2.3.1
   confetti: ^0.7.0
   flutter_wallpaper_manager: ^0.0.4
+  tflite_flutter: ^0.10.3
+  image_picker: ^1.0.4
+  camera: ^0.10.5+5
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +47,4 @@ flutter:
   assets:
     - lib/.env
     - assets/images/
+    - assets/models/
