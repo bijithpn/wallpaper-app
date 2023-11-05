@@ -110,7 +110,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     Consumer<ImageDownloadProvider>(
                       builder: (context, downloadProvider, _) {
                         return ListTile(
-                          onTap: null,
                           trailing: IconButton(
                             icon: const Icon(Icons.edit_outlined),
                             onPressed: () {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,8 +19,9 @@ class ImageDownloadProvider extends ChangeNotifier {
     if (isGranted != null && isGranted) {
       paths?.clear();
       paths = await Saf.getPersistedPermissionDirectories();
-      notifyListeners();
-      if (paths?.isNotEmpty ?? false) {}
+      if (paths?.isNotEmpty ?? false) {
+        notifyListeners();
+      }
     }
   }
 

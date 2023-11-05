@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -12,6 +11,7 @@ import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/screens/author/author_page.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
 import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
+import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 
@@ -226,6 +226,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 provider
                                     .wallpaperStatus = await showDialog<int>(
                                         context: context,
+                                        barrierDismissible: false,
                                         builder: (context) {
                                           return Center(
                                             child: Container(
@@ -259,7 +260,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     function: () {
                                                       Navigator.pop(
                                                           context,
-                                                          AsyncWallpaper
+                                                          WallpaperManager
                                                               .HOME_SCREEN);
                                                     },
                                                   ),
@@ -274,7 +275,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     function: () {
                                                       Navigator.pop(
                                                           context,
-                                                          AsyncWallpaper
+                                                          WallpaperManager
                                                               .LOCK_SCREEN);
                                                     },
                                                   ),
@@ -290,8 +291,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     function: () {
                                                       Navigator.pop(
                                                           context,
-                                                          AsyncWallpaper
-                                                              .BOTH_SCREENS);
+                                                          WallpaperManager
+                                                              .BOTH_SCREEN);
                                                     },
                                                   ),
                                                 ],
@@ -299,7 +300,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                             ),
                                           );
                                         }) ??
-                                    AsyncWallpaper.BOTH_SCREENS;
+                                    WallpaperManager.BOTH_SCREEN;
                                 loadingWallpaper(context, provider.color);
                                 setWallpapaer = await provider.setWallpaper(
                                     wallpaperLocation: provider.wallpaperStatus,
@@ -387,7 +388,7 @@ void loadingWallpaper(BuildContext context, Color color) {
           child: Container(
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(10)),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               SizedBox(
                   height: 30,
@@ -395,12 +396,16 @@ void loadingWallpaper(BuildContext context, Color color) {
                   child: CircularProgressIndicator(
                     color: SystemTheme.accentColor.accent,
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
                 "Setting wallpaper",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: color.computeLuminance() > 0.5
+                        ? Colors.black
+                        : Colors.white,
+                    fontWeight: FontWeight.bold),
               )
             ]),
           ),
