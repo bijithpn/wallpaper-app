@@ -81,8 +81,10 @@ class HomeScreen extends StatelessWidget {
                       child: Center(
                     child: Text(
                       "Pick your wallpaper",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   )),
                   ListTile(
@@ -123,9 +125,7 @@ class HomeScreen extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
-                                  .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
                             const FlutterLogo()
                           ],
@@ -137,9 +137,7 @@ class HomeScreen extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
-                                  .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

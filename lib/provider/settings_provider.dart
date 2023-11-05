@@ -35,9 +35,11 @@ class SettingProvider extends ChangeNotifier {
                 borderSide: const BorderSide(color: Colors.transparent)),
             fillColor: Colors.grey[600],
             filled: true),
-        textTheme: GoogleFonts.notoSansArmenianTextTheme(),
+        textTheme: GoogleFonts.notoSansArmenianTextTheme()
+            .apply(bodyColor: Colors.white, displayColor: Colors.white),
         useMaterial3: true,
       );
+      settingBox.put('darkMode', true);
     } else {
       _themeData = ThemeData(
         dividerColor: Colors.transparent,
@@ -54,12 +56,14 @@ class SettingProvider extends ChangeNotifier {
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
                 borderSide: const BorderSide(color: Colors.transparent)),
-            fillColor: Colors.grey[200],
+            fillColor: Colors.white,
             filled: true),
         primaryColor: SystemTheme.accentColor.accent,
-        textTheme: GoogleFonts.notoSansArmenianTextTheme(),
+        textTheme: GoogleFonts.notoSansArmenianTextTheme()
+            .apply(bodyColor: Colors.black, displayColor: Colors.black),
         useMaterial3: true,
       );
+      settingBox.put('darkMode', false);
     }
     notifyListeners();
   }

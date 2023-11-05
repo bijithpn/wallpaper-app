@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 bool onidle = box.get('onIdle', defaultValue: false);
                 bool onCharging = box.get('onCharge', defaultValue: false);
                 bool onWifi = box.get('onWifi', defaultValue: false);
-                return Column(
+                return ListView(
                   children: [
                     ListTile(
                       leading: isDark
@@ -138,16 +138,31 @@ class _SettingsPageState extends State<SettingsPage> {
                           "Tell me what you think,suggest ideas, bug reports and improvements"),
                     ),
                     const Spacer(),
-                    Text(
-                      "App Version",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            "App Version",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "1.0.1",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      "1.0.1",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )
                   ],
                 );
               },
