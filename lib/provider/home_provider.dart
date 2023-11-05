@@ -5,6 +5,7 @@ import 'package:flutter_wallpaper_app/repository/image_repository.dart';
 class HomeProvider with ChangeNotifier {
   bool isLoading = true;
   List<Photo> photoList = [];
+  List<Photo> searchPhotoList = [];
   late ScrollController scrollController;
   int pageIndex = 1;
   int dataLimit = 50;
@@ -36,6 +37,23 @@ class HomeProvider with ChangeNotifier {
       var imageData = await imageRepository.imageAPICall(queryParameters: body);
       imageData.photos.map((e) => photoList.add(e)).toList();
       if (photoList.isNotEmpty) {
+        isLoading = false;
+        notifyListeners();
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  searchImage(String query) async {
+    try {
+      isLoading = true;
+      searchPhotoList.clear();
+      var body = {'query': query};
+      var imageData =
+          await imageRepository.searchAPICall(queryParameters: body);
+      imageData.photos.map((e) => searchPhotoList.add(e)).toList();
+      if (searchPhotoList.isNotEmpty) {
         isLoading = false;
         notifyListeners();
       }

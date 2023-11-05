@@ -26,13 +26,13 @@ class SettingProvider extends ChangeNotifier {
                 const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             fillColor: Colors.grey[600],
             filled: true),
         textTheme: GoogleFonts.notoSansArmenianTextTheme()
@@ -49,13 +49,13 @@ class SettingProvider extends ChangeNotifier {
                 const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
-                borderSide: const BorderSide(color: Colors.transparent)),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
             fillColor: Colors.white,
             filled: true),
         primaryColor: SystemTheme.accentColor.accent,

@@ -2,15 +2,37 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_wallpaper_app/provider/home_provider.dart';
 import 'package:flutter_wallpaper_app/screens/favorites/favorite.dart';
+import 'package:flutter_wallpaper_app/screens/search/search.dart';
 import 'package:flutter_wallpaper_app/screens/settings/settings.dart';
 import 'package:flutter_wallpaper_app/widget/custom_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
+class HomeScreen extends StatefulWidget {
+  HomeScreen({
     super.key,
   });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool shoButton = false;
+  @override
+  void initState() {
+    controller.addListener(() {
+      if (controller.text.length > 3) {
+        shoButton = true;
+      } else {
+        shoButton = false;
+      }
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(context) {
@@ -19,23 +41,48 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor:
-                Theme.of(context).scaffoldBackgroundColor.withOpacity(.9),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             title: SizedBox(
               height: 50,
               child: TextFormField(
                 cursorWidth: 1,
+                controller: controller,
+                autofillHints: const [
+                  AutofillHints.location,
+                  AutofillHints.name,
+                  AutofillHints.photo
+                ],
+                onFieldSubmitted: (value) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchPage(
+                                query: value,
+                              )));
+                  controller.clear();
+                },
                 decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  hintText: "Trending..",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    hintText: "Trending..",
+                    suffixIcon: shoButton
+                        ? AnimatedOpacity(
+                            opacity: shoButton ? 1 : 0,
+                            duration: const Duration(milliseconds: 300),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SearchPage(
+                                              query: controller.text,
+                                            )));
+                                controller.clear();
+                              },
+                              icon: const Icon(Icons.search),
+                            ),
+                          )
+                        : const SizedBox.shrink()),
               ),
             ),
             actions: [

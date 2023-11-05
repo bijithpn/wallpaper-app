@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Wallpaper Demo App',
             theme: Provider.of<SettingProvider>(context).themeData,
-            home: const HomeScreen());
+            home:  HomeScreen());
       },
     );
   }
