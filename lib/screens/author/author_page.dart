@@ -5,10 +5,10 @@ class AuthorWidget extends StatefulWidget {
   final String profileUrl;
   final Color color;
   const AuthorWidget({
-    Key? key,
+    super.key,
     required this.profileUrl,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<AuthorWidget> createState() => _AuthorWidgetState();
@@ -52,13 +52,8 @@ class _AuthorWidgetState extends State<AuthorWidget> {
                   isLoading = false;
                 });
               },
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  useShouldOverrideUrlLoading: true,
-                ),
-              ),
-              initialUrlRequest:
-                  URLRequest(url: Uri.tryParse(widget.profileUrl)),
+              initialSettings: InAppWebViewSettings(),
+              initialUrlRequest: URLRequest(url: WebUri(widget.profileUrl)),
               onWebViewCreated: (InAppWebViewController controller) {},
               onProgressChanged:
                   (InAppWebViewController controller, int progress) {},
@@ -72,7 +67,7 @@ class _AuthorWidgetState extends State<AuthorWidget> {
                 return NavigationActionPolicy.ALLOW;
               },
               onCloseWindow: (controller) {
-                controller.clearCache();
+                // controller.clearAllCache();
               },
             ),
             isLoading

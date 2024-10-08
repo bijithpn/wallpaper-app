@@ -50,10 +50,10 @@ class ImageDownloadProvider extends ChangeNotifier {
     if (!fileExists(imageFile.path)) {
       await imageFile.writeAsBytes(await file.readAsBytes());
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("file downloaded")));
+          .showSnackBar(const SnackBar(content: Text("file downloaded")));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("file already downloaded")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("file already downloaded")));
     }
   }
 

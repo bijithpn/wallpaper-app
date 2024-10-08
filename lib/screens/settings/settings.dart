@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wallpaper_app/provider/provider.dart';
 import 'package:flutter_wallpaper_app/screens/details/wallpaper_item.dart';
-import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -128,8 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 Theme.of(context).primaryColor,
                                             icon: Icons.home_rounded,
                                             function: () {
-                                              Navigator.pop(context,
-                                                  WallpaperManager.HOME_SCREEN);
+                                              Navigator.pop(context, 1);
                                             },
                                           ),
                                           WallpaperItemWIdget(
@@ -138,8 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 Theme.of(context).primaryColor,
                                             icon: Icons.lock_outline,
                                             function: () {
-                                              Navigator.pop(context,
-                                                  WallpaperManager.LOCK_SCREEN);
+                                              Navigator.pop(context, 2);
                                             },
                                           ),
                                           WallpaperItemWIdget(
@@ -148,8 +145,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 Theme.of(context).primaryColor,
                                             icon: Icons.wallpaper_outlined,
                                             function: () {
-                                              Navigator.pop(context,
-                                                  WallpaperManager.BOTH_SCREEN);
+                                              Navigator.pop(context, 3);
                                             },
                                           ),
                                         ],
@@ -157,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   );
                                 }) ??
-                            WallpaperManager.BOTH_SCREEN;
+                            3;
                         box.put('wallpaperStatus', wallpaper);
                       },
                       leading: const Icon(Icons.wallpaper_rounded),

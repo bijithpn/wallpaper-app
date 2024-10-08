@@ -3,7 +3,7 @@ import 'package:flutter_wallpaper_app/model/image_data_model.dart';
 import 'package:flutter_wallpaper_app/repository/image_repository.dart';
 
 class HomeProvider with ChangeNotifier {
-  bool isLoading = true;
+  bool isLoading = false;
   List<Photo> photoList = [];
   List<Photo> searchPhotoList = [];
   late ScrollController scrollController;
@@ -33,6 +33,8 @@ class HomeProvider with ChangeNotifier {
 
   getImages() async {
     try {
+      isLoading = true;
+      notifyListeners();
       var body = {'page': pageIndex, 'per_page': dataLimit};
       var imageData = await imageRepository.imageAPICall(queryParameters: body);
       imageData.photos.map((e) => photoList.add(e)).toList();

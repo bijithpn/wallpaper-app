@@ -33,9 +33,6 @@ void main() async {
   await Hive.openBox<Favorite>('favoriteBox');
   await Hive.openBox('settingBox');
   await SystemTheme.accentColor.load();
-  final supported = defaultTargetPlatform.supportsAccentColor;
-  print(
-      'Accent color is: ${supported ? 'supported' : 'not supported'} on the current platform');
   runApp(const MyApp());
 }
 
@@ -69,7 +66,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Wallpaper Demo App',
             theme: Provider.of<SettingProvider>(context).themeData,
-            home:  HomeScreen());
+            home: HomeScreen());
       },
     );
   }

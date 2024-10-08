@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_app/model/image_data_model.dart';
@@ -40,10 +40,32 @@ class DetailsProvider with ChangeNotifier {
     }
   }
 
-  setWallpaper(
-      {required int wallpaperLocation, required BuildContext context}) async {
-    bool result = await WallpaperManager.setWallpaperFromFile(
-        file.path, wallpaperLocation);
-    return result;
+  Future<bool> setWallpaper() async {
+    try {
+      const platform = MethodChannel('com.example.wallpaper/wallpaper');
+      final int result = await platform.invokeMethod('setWallpaper', {
+        'imagePath': file.path,
+        'type': getWallpaperType(wallpaperStatus),
+      });
+      if (result == 1) {
+        return true;
+      }
+    } on PlatformException catch (e) {
+      print("Failed to set wallpaper: '${e.message}'.");
+    }
+    return false;
+  }
+
+  String getWallpaperType(int value) {
+    switch (value) {
+      case 1:
+        return "home";
+      case 2:
+        return 'lock';
+      case 3:
+        return "both";
+      default:
+        return "home";
+    }
   }
 }

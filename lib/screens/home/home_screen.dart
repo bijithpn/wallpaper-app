@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({
+  const HomeScreen({
     super.key,
   });
 
@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late CameraDescription cameraDescription;
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
   List<Widget>? _widgetOptions;
 
   bool cameraIsAvailable = Platform.isAndroid || Platform.isIOS;
@@ -217,8 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return homeProvider.isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      color: SystemTheme.accentColor.accent,
-                    ),
+                        color: SystemTheme.accentColor.defaultAccentColor),
                   )
                 : CustomGridView(
                     scrollController: homeProvider.scrollController,
