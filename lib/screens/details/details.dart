@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_wallpaper_app/model/image_data_model.dart';
+import 'package:flutter_wallpaper_app/data/model/image_data_model.dart';
 import 'dart:math';
 
 import 'package:flutter_wallpaper_app/provider/provider.dart';

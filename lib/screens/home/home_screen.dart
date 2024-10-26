@@ -24,8 +24,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late CameraDescription cameraDescription;
-  final int _selectedIndex = 0;
-  List<Widget>? _widgetOptions;
 
   bool cameraIsAvailable = Platform.isAndroid || Platform.isIOS;
   bool shoButton = false;

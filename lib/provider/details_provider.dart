@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_wallpaper_app/model/image_data_model.dart';
+import 'package:flutter_wallpaper_app/data/model/image_data_model.dart';
 import 'package:hive/hive.dart';
 import 'package:palette_generator/palette_generator.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wallpaper_app/db/favorite_type_adapter.dart';
-import 'package:flutter_wallpaper_app/model/image_data_model.dart';
-import 'package:flutter_wallpaper_app/repository/image_repository.dart';
+import 'package:flutter_wallpaper_app/data/model/image_data_model.dart';
+import 'package:flutter_wallpaper_app/data/repository/image_repository.dart';
 import 'package:hive/hive.dart';
 
 class FavoriteProvider with ChangeNotifier {

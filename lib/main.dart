@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 
 import 'db/favorite_type_adapter.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'provider/provider.dart';
 import 'screens/screens.dart';
 

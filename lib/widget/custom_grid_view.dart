@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_wallpaper_app/db/favorite_type_adapter.dart';
-import 'package:flutter_wallpaper_app/model/image_data_model.dart';
+import 'package:flutter_wallpaper_app/data/model/image_data_model.dart';
 import 'package:flutter_wallpaper_app/screens/details/details.dart';
 import 'package:flutter_wallpaper_app/utils/color_extentions.dart';
 
@@ -26,8 +26,6 @@ class CustomGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(list.first.runtimeType == Favorite);
-    print(double.parse((list.first.width.toString())) / 25);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: GridView.custom(

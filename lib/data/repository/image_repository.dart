@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wallpaper_app/api_config/api_client.dart';
 import 'package:flutter_wallpaper_app/api_config/api_config.dart';
-import 'package:flutter_wallpaper_app/model/image_data_model.dart';
+import 'package:flutter_wallpaper_app/data/model/image_data_model.dart';
 
 class ImageRepository {
   Future<ImageData> imageAPICall(
